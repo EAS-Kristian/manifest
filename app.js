@@ -46,7 +46,7 @@ webapp.get('/api/capability/:capability/tags', async (req, res) => {
 //   http://localhost:3000/api/capability/iis-capability/tag/main/directives
 webapp.get('/api/capability/:capability/tag/:tag/directives', async (req, res) => {
   try {
-    const files = await getContents("tomanval", req.params.capability, "validation")
+    const files = await getContents("tomanval", req.params.capability, "validation", req.params.tag)
     directives = files.data.map(directive => directive.name.replace(".yml", ""))
     res.json(directives)
   } catch (err) {
@@ -73,7 +73,7 @@ const getRepos = async () => await octokit.request(`GET /orgs/${org}/repos`)
 
 const getTags = async (owner, repo) => await octokit.request(`GET /repos/${owner}/${repo}/tags`)
 
-const getContents = async (owner, repo, path, tag) => await octokit.request(`GET /repos/${owner}/${repo}/contents/${path}/?ref=${tag}`)
+const getContents = async (owner, repo, path, tag) => await octokit.request(`GET /repos/${owner}/${repo}/contents/${path}?ref=${tag}`)
 
 
 
